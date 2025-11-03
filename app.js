@@ -1066,4 +1066,3 @@ window.addEventListener('error', function(e) {
 window.addEventListener('beforeunload', function() {
     Object.values(autoImageInterval).forEach(interval => clearInterval(interval));
 });
-

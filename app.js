@@ -168,15 +168,26 @@ function initializeLogo() {
 
 // Détection du pays de l'utilisateur
 async function detectUserCountry() {
+    let userCountry = 'Inconnu'; // Valeur par défaut uniquement en cas d'échec
+
     try {
         const response = await fetch('https://ipapi.co/json/');
+        if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+
         const data = await response.json();
-        userCountry = data.country_name || 'Tunisie';
+        if (data && data.country_name) {
+            userCountry = data.country_name; // ✅ Détecte n’importe quel pays (FR, US, DZ, etc.)
+        } else {
+            console.warn('Aucune donnée de pays reçue depuis ipapi.co.');
+        }
     } catch (error) {
-        console.log('Impossible de détecter le pays, utilisation de la valeur par défaut:', error);
-        userCountry = 'Tunisie';
+        console.error('Erreur lors de la détection du pays:', error);
     }
+
+    console.log('Pays détecté :', userCountry);
+    return userCountry;
 }
+
 
 // Navigation et animations
 function initializeNavigation() {

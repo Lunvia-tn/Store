@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lunvia - Bijoux de Luxe</title>
+    <meta name="description" content="Découvrez la collection exclusive Lunvia de bijoux raffinés. Bracelets, chaînes et médailles d'exception.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1><i class="fas fa-moon"></i> Lunvia</h1>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link">Accueil</a>
+                <a href="#collection" class="nav-link">Collection</a>
+                <div class="nav-cart">
+                    <button id="cartButton" class="cart-btn">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span id="cartCount" class="cart-count">0</span>
+                    </button>
+                </div>
+            </div>
+            <button class="nav-toggle" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-background">
+            <div class="hero-particles" id="particles"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Lunvia Collection</h1>
+                <p class="hero-subtitle">L'élégance intemporelle rencontre l'artisanat exceptionnel</p>
+                <button class="cta-button" onclick="scrollToCollection()">
+                    <span>Découvrir</span>
+                    <i class="fas fa-arrow-down"></i>
+                </button>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-jewel">
+                    <div class="jewel-inner"></div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- Collection Section -->
+    <section id="collection" class="collection">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Collection Exclusive</h2>
+                <p class="section-subtitle">Des créations uniques qui célèbrent votre singularité</p>
+            </div>
+
+            <div class="collection-controls">
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-filter="all">Tous</button>
+                    <button class="filter-tab" data-filter="bracelets">Bracelets</button>
+                    <button class="filter-tab" data-filter="chains">Chaînes</button>
+                    <button class="filter-tab" data-filter="medals">Médailles</button>
+                </div>
+                <div class="sort-controls">
+                    <select id="sortFilter" class="sort-select">
+                        <option value="featured">En vedette</option>
+                        <option value="price-asc">Prix croissant</option>
+                        <option value="price-desc">Prix décroissant</option>
+                        <option value="newest">Nouveautés</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content cart-modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-shopping-bag"></i> Votre Panier Lunvia</h2>
+                <button class="close-button">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="cartItems" class="cart-items">
+                    <!-- Cart items will be dynamically loaded here -->
+                </div>
+                <div class="cart-footer">
+                    <div class="cart-summary">
+                        <div class="cart-subtotal">
+                            <span>Sous-total:</span>
+                            <span id="cartSubtotal">0.00 TND</span>
+                        </div>
+                        <div class="cart-shipping">
+                            <span>Livraison:</span>
+                            <span>Gratuit</span>
+                        </div>
+                        <div class="cart-total">
+                            <span>Total:</span>
+                            <strong id="cartTotal">0.00 TND</strong>
+                        </div>
+                    </div>
+                    <button id="checkoutButton" class="checkout-btn">
+                        <i class="fas fa-lock"></i>
+                        Commander Maintenant
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content checkout-modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-credit-card"></i> Finaliser Votre Commande</h2>
+                <button class="close-button">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="order-summary">
+                    <h3>Récapitulatif de la commande</h3>
+                    <div id="orderItems" class="order-items">
+                        <!-- Order items will be dynamically loaded here -->
+                    </div>
+                    <div class="order-total">
+                        <strong>Total: <span id="orderTotal">0.00</span> TND</strong>
+                    </div>
+                </div>
+
+                <form id="checkoutForm" class="checkout-form">
+                    <h3>Informations de livraison</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Nom complet *</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                            <span class="error-message" id="fullNameError"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Téléphone *</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+216" required>
+                            <span class="error-message" id="phoneError"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="state">Gouvernorat *</label>
+                            <select id="state" name="state" required>
+                                <option value="">Sélectionnez votre gouvernorat</option>
+                                <option value="Tunis">Tunis</option>
+                                <option value="Ariana">Ariana</option>
+                                <option value="Ben Arous">Ben Arous</option>
+                                <option value="Manouba">Manouba</option>
+                                <option value="Sousse">Sousse</option>
+                                <option value="Sfax">Sfax</option>
+                                <option value="Nabeul">Nabeul</option>
+                                <option value="Bizerte">Bizerte</option>
+                                <option value="Monastir">Monastir</option>
+                                <option value="Kairouan">Kairouan</option>
+                                <option value="Gabès">Gabès</option>
+                                <option value="Gafsa">Gafsa</option>
+                                <option value="Tozeur">Tozeur</option>
+                                <option value="Médenine">Médenine</option>
+                                <option value="Tataouine">Tataouine</option>
+                                <option value="Kébili">Kébili</option>
+                                <option value="Siliana">Siliana</option>
+                                <option value="Kasserine">Kasserine</option>
+                                <option value="Mahdia">Mahdia</option>
+                                <option value="Zaghouan">Zaghouan</option>
+                                <option value="Béja">Béja</option>
+                                <option value="Jendouba">Jendouba</option>
+                                <option value="Le Kef">Le Kef</option>
+                            </select>
+                            <span class="error-message" id="stateError"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="address">Adresse complète *</label>
+                            <textarea id="address" name="address" placeholder="Votre adresse complète en Tunisie" required></textarea>
+                            <span class="error-message" id="addressError"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="comment">Notes (optionnel)</label>
+                            <textarea id="comment" name="comment" placeholder="Instructions spéciales ou commentaires..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="submit-order-btn">
+                            <i class="fas fa-paper-plane"></i>
+                            Confirmer la Commande
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3><i class="fas fa-moon"></i> Lunvia</h3>
+                    <p>Des bijoux qui racontent votre histoire. Excellence et élégance depuis 2025.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/lunvia_store" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.tiktok.com/@lunvia_store" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><i class="fas fa-phone"></i> +216 92 604 245</p>
+                    <p><i class="fas fa-envelope"></i> lunvia59@gmail.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Tunis, Tunisie</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <p><i class="fas fa-shipping-fast"></i> Livraison gratuite</p>
+                    <p><i class="fas fa-clock"></i> Délai: 48 Hours</p>
+                    <p><i class="fas fa-shield-alt"></i> Paiement à la Livraison</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Lunvia. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

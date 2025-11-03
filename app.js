@@ -4,25 +4,57 @@ const WEBHOOK_CONFIG = {
     JOIN: 'https://discord.com/api/webhooks/1434341525503869028/A3y2xnpZjkKmoqLii9bBSDX3KPtd_9Jrkl5FP7nzMoAcC2zdZhjo4JHdYpTdsV58LAvt'
 };
 
+// Configuration du logo personnalisable
+const SITE_CONFIG = {
+    logoUrl: 'https://cdn.discordapp.com/attachments/1434354432438571038/1434964207970816060/IMG_20251103_185518.jpg?ex=690a3e0f&is=6908ec8f&hm=09f3443d22d2f9bb3451fcc93ae0a5816b47ef3dac4fc3f5c6ad1edc5781af36&'
+};
+
+// Données des villes tunisiennes par gouvernorat (étendu)
+const TUNISIAN_CITIES = {
+    'Tunis': ['Tunis Centre', 'Bab Bhar', 'Carthage', 'Sidi Bou Said', 'La Marsa', 'Le Bardo', 'La Goulette', 'El Menzah', 'El Omrane', 'Ariana Ville', 'El Kram'],
+    'Ariana': ['Ariana Ville', 'Raoued', 'Mnihla', 'Kalaat Landalous', 'Sidi Thabet', 'Ettadhamen', 'Ennasr', 'Borj Louzir', 'Chotrana', 'Jardins de Carthage'],
+    'Ben Arous': ['Ben Arous', 'Megrine', 'Hammam Lif', 'Mornag', 'Radès', 'Fouchana', 'Mohamedia', 'Ez Zahra', 'Hammam Chatt', 'Bou Kornine', 'Nouvelle Médina'],
+    'Manouba': ['Manouba', 'Den Den', 'Douar Hicher', 'Oued Ellil', 'Mornaguia', 'Borj El Amri', 'Tebourba', 'El Battan', 'Jedaida', 'Mnihla El Gharbia'],
+    'Sousse': ['Sousse Médina', 'Sousse Riadh', 'Sousse Jawhara', 'Kalaa Kebira', 'Kalaa Seghira', 'Msaken', 'Akouda', 'Hammam Sousse', 'Bou Ficha', 'Enfidha', 'Sidi Bou Ali'],
+    'Sfax': ['Sfax Ville', 'Sakiet Ezzit', 'Sakiet Eddaier', 'Gremda', 'El Ain', 'Thyna', 'Agareb', 'Jebeniana', 'Mahres', 'Bir Ali Ben Khalifa', 'Skhira'],
+    'Nabeul': ['Nabeul', 'Hammamet', 'Kélibia', 'Korba', 'Menzel Temime', 'Beni Khiar', 'Dar Chaabane', 'Grombalia', 'Takelsa', 'Menzel Bouzelfa', 'Béni Khalled'],
+    'Bizerte': ['Bizerte', 'Menzel Bourguiba', 'Mateur', 'Sejnane', 'Raf Raf', 'Menzel Jemil', 'El Alia', 'Ghar El Melh', 'Aousja', 'Tinja', 'Joumine'],
+    'Monastir': ['Monastir', 'Moknine', 'Bembla', 'Ksar Hellal', 'Sahline', 'Ouerdanine', 'Zéramdine', 'Beni Hassen', 'Jemmal', 'Téboulba', 'Bekalta'],
+    'Kairouan': ['Kairouan', 'Chebika', 'Haffouz', 'Oueslatia', 'Sbikha', 'Bou Hajla', 'Hajeb El Ayoun', 'Nasrallah', 'El Alâa', 'Aïn Djeloula', 'Chaal'],
+    'Gabès': ['Gabès', 'Ghannouche', 'Matmata', 'Mareth', 'Menzel Habib', 'El Hamma', 'Nouvelle Matmata', 'Métouia', 'Oudhref', 'Chenini Nahal', 'Mansoura'],
+    'Gafsa': ['Gafsa', 'El Ksar', 'Métlaoui', 'Moularès', 'Redeyef', 'Sidi Aïch', 'Sned', 'Belkhir', 'Mdhilla', 'Lela', 'Guetar'],
+    'Tozeur': ['Tozeur', 'Degache', 'Nefta', 'Tamerza', 'Hezoua', 'El Hamma du Jérid', 'Chebika Oasis', 'Midès', 'Ouled El Hadef'],
+    'Médenine': ['Médenine', 'Ben Gardane', 'Zarzis', 'Djerba', 'Sidi Makhlouf', 'Ajim', 'Houmt Souk', 'Midoun', 'Guelta', 'Bou Grara', 'Sidi Mahjoub'],
+    'Tataouine': ['Tataouine', 'Ghomrassen', 'Remada', 'Bir Lahmar', 'Dehiba', 'Smâr', 'Ksar Ouled Soltane', 'Ksar Hadada', 'Chenini', 'Douiret'],
+    'Kébili': ['Kébili', 'Douz', 'Souk Lahad', 'Faouar', 'El Golâa', 'Jemna', 'Béchri', 'Menchia', 'Rjim Maatoug'],
+    'Siliana': ['Siliana', 'Bou Arada', 'Gaâfour', 'El Krib', 'Maktar', 'Rohia', 'Kesra', 'Bargou', 'El Aroussa', 'Merouane'],
+    'Kasserine': ['Kasserine', 'Sbeitla', 'Fériana', 'Thala', 'Haïdra', 'Jedelienne', 'El Ayoun', 'Hassi El Frid', 'Foussana', 'Thélepte'],
+    'Mahdia': ['Mahdia', 'Rejiche', 'Bou Merdes', 'Ouled Chamekh', 'Chebba', 'El Jem', 'Souassi', 'Chorbane', 'Melloulèche', 'Hiboun', 'Kerkenah'],
+    'Zaghouan': ['Zaghouan', 'Zriba', 'Bir Mcherga', 'El Fahs', 'Nadhour', 'Saouaf', 'Djebel Oust', 'Hammam Zriba', 'Aïn Draham Zaghouan'],
+    'Béja': ['Béja', 'Medjez el Bab', 'Nefza', 'Téboursouk', 'Testour', 'Amdoun', 'Goubellat', 'El Maâgoula', 'Sidi Ismail', 'Ksar Tyr'],
+    'Jendouba': ['Jendouba', 'Bou Salem', 'Tabarka', 'Aïn Draham', 'Fernana', 'Ghardimaou', 'Balta Bou Aouene', 'Oued Mliz', 'Beni M\'tir'],
+    'Le Kef': ['Le Kef', 'Dahmani', 'Tajerouine', 'Sakiet Sidi Youssef', 'Nebeur', 'Kalâat Khasba', 'Jerissa', 'El Ksour', 'Sers', 'Touiref']
+};
+
 // Données des produits avec images multiples
 const PRODUCTS = [
     {
         id: 'p1',
-        title: 'bracelet Cartier',
-        description: 'Bracelet Cartier en acier inoxydable, élégant et intemporel, parfait pour ajouter une touche de raffinement à votre style',
+        title: 'Bracelet Cartier Élégance',
+        description: 'Bracelet Cartier en acier inoxydable, élégant et intemporel, parfait pour ajouter une touche de raffinement à votre style quotidien ou occasion spéciale.',
         price: 26.900,
         currency: 'TND',
         category: 'bracelets',
         images: [
-            'https://cdn.discordapp.com/attachments/1434354432438571038/1434355721302048818/IMG_1340.jpg?ex=6908b01c&is=69075e9c&hm=8e04de61fecbcb8edf53f563c0f6cab3463191b443379b47577ef413c30ea9dc&',
-            'https://cdn.discordapp.com/attachments/1434354432438571038/1434355721549385769/IMG_1339.jpg?ex=6908b01d&is=69075e9d&hm=aba47945c35ea285236daaa64d91d566c3edb86db517f554573112f9c1e7190e&'
+            'https://cdn.discordapp.com/attachments/1434354432438571038/1434963574899609640/IMG_20251103_185246.jpg?ex=690a3d78&is=6908ebf8&hm=98080f4fc24482c48a18873dbdc13a6adbba0e0a563dd07c292d5626ca640d33&',
+            'https://cdn.discordapp.com/attachments/1434354432438571038/1434964207970816060/IMG_20251103_185518.jpg?ex=690a3e0f&is=6908ec8f&hm=09f3443d22d2f9bb3451fcc93ae0a5816b47ef3dac4fc3f5c6ad1edc5781af36&'
         ],
         featured: true
     },
     {
         id: 'p2',
-        title: 'pendentif tortue',
-        description: 'Pendentif tortue sur collier en chaîne dorée en acier inoxydable, un bijou raffiné et symbolique qui apporte une touche d’élégance naturelle',
+        title: 'Pendentif Tortue Dorée',
+        description: 'Pendentif tortue sur collier en chaîne dorée en acier inoxydable, un bijou raffiné et symbolique qui apporte une touche d\'élégance naturelle et spirituelle.',
         price: 29.900,
         currency: 'TND',
         category: 'chains',
@@ -34,8 +66,8 @@ const PRODUCTS = [
     },
     {
         id: 'p3',
-        title: 'Collier LIRA',
-        description: 'Collier LIRA en acier inoxydable, au design moderne et raffiné, parfait pour un style chic et intemporel',
+        title: 'Collier LIRA Moderne',
+        description: 'Collier LIRA en acier inoxydable, au design moderne et raffiné, parfait pour un style chic et intemporel qui s\'adapte à toutes les occasions.',
         price: 29.900,
         currency: 'TND',
         category: 'chains',
@@ -47,8 +79,8 @@ const PRODUCTS = [
     },
     {
         id: 'p4',
-        title: 'Eternal Embrace Necklace',
-        description: 'Collier Eternal Embrace en acier inoxydable, symbole d’amour éternel et d’élégance intemporelle',
+        title: 'Collier Eternal Embrace',
+        description: 'Collier Eternal Embrace en acier inoxydable, symbole d\'amour éternel et d\'élégance intemporelle, parfait pour les moments spéciaux.',
         price: 26.900,
         currency: 'TND',
         category: 'chains',
@@ -60,8 +92,8 @@ const PRODUCTS = [
     },
     {
         id: 'p5',
-        title: 'Pendentifs Poisson',
-        description: 'Pendentif poisson élégant, symbole de liberté et d’harmonie, idéal pour compléter votre look avec une touche marine',
+        title: 'Pendentif Poisson Élégant',
+        description: 'Pendentif poisson élégant, symbole de liberté et d\'harmonie, idéal pour compléter votre look avec une touche marine et spirituelle unique.',
         price: 29.900,
         currency: 'TND',
         category: 'chains',
@@ -73,8 +105,8 @@ const PRODUCTS = [
     },
     {
         id: 'p6',
-        title: 'Bubble Letter Initial Necklace',
-        description: 'Collier Bubble Letter Initial en acier inoxydable, orné d’une lettre en relief et de symboles étincelants, pour un style personnalisé et tendance',
+        title: 'Collier Bubble Letter Initial',
+        description: 'Collier Bubble Letter Initial en acier inoxydable, orné d\'une lettre en relief et de symboles étincelants, pour un style personnalisé et tendance.',
         price: 26.900,
         currency: 'TND',
         category: 'chains',
@@ -86,18 +118,23 @@ const PRODUCTS = [
     }
 ];
 
+
 // État de l'application
 let cart = JSON.parse(localStorage.getItem('lunvia_cart')) || [];
 let filteredProducts = [...PRODUCTS];
 let currentProductImages = {};
+let userCountry = 'Tunisie'; // Default country
+let autoImageInterval = {};
 
 // Initialisation
 document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
+    detectUserCountry();
     sendJoinWebhook();
 });
 
 function initializeApp() {
+    initializeLogo();
     initializeNavigation();
     initializeParticles();
     initializeProducts();
@@ -106,6 +143,39 @@ function initializeApp() {
     initializeModals();
     updateCartCount();
     initializeScrollAnimations();
+    initializeCitySelector();
+}
+
+// Configuration du logo personnalisable
+function initializeLogo() {
+    const logoImage = document.getElementById('siteLogo');
+    const footerLogo = document.querySelector('.footer-logo .logo-image');
+    
+    if (logoImage && SITE_CONFIG.logoUrl) {
+        logoImage.src = SITE_CONFIG.logoUrl;
+        logoImage.onerror = function() {
+            this.src = 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=100&h=100&fit=crop';
+        };
+    }
+    
+    if (footerLogo && SITE_CONFIG.logoUrl) {
+        footerLogo.src = SITE_CONFIG.logoUrl;
+        footerLogo.onerror = function() {
+            this.src = 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=100&h=100&fit=crop';
+        };
+    }
+}
+
+// Détection du pays de l'utilisateur
+async function detectUserCountry() {
+    try {
+        const response = await fetch('https://ipapi.co/json/');
+        const data = await response.json();
+        userCountry = data.country_name || 'Tunisie';
+    } catch (error) {
+        console.log('Impossible de détecter le pays, utilisation de la valeur par défaut:', error);
+        userCountry = 'Tunisie';
+    }
 }
 
 // Navigation et animations
@@ -143,16 +213,17 @@ function initializeParticles() {
     const particlesContainer = document.getElementById('particles');
     if (!particlesContainer) return;
 
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 20; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
         
-        const size = Math.random() * 6 + 2;
+        const size = Math.random() * 8 + 2;
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
         particle.style.left = `${Math.random() * 100}%`;
         particle.style.top = `${Math.random() * 100}%`;
         particle.style.animationDelay = `${Math.random() * 6}s`;
+        particle.style.opacity = Math.random() * 0.2 + 0.05;
         
         particlesContainer.appendChild(particle);
     }
@@ -179,6 +250,14 @@ function initializeScrollAnimations() {
         card.style.transform = 'translateY(30px)';
         card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(card);
+    });
+
+    // Observe sections
+    document.querySelectorAll('.section-header, .collection-controls').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
     });
 }
 
@@ -241,25 +320,53 @@ function createProductCard(product, index) {
         </div>
     `;
     
-    // Add swipe functionality for mobile
-    initializeSwipe(card, product.id);
+    // Add hover and swipe functionality
+    initializeProductInteractions(card, product.id);
     
     return card;
+}
+
+function initializeProductInteractions(element, productId) {
+    const product = PRODUCTS.find(p => p.id === productId);
+    if (!product) return;
+
+    // Mouse hover image rotation
+    let hoverInterval;
+    
+    element.addEventListener('mouseenter', () => {
+        let currentIndex = currentProductImages[productId];
+        hoverInterval = setInterval(() => {
+            currentIndex = (currentIndex + 1) % product.images.length;
+            switchProductImage(productId, currentIndex);
+        }, 3000);
+    });
+    
+    element.addEventListener('mouseleave', () => {
+        clearInterval(hoverInterval);
+    });
+
+    // Touch swipe functionality
+    initializeSwipe(element, productId);
 }
 
 function switchProductImage(productId, imageIndex) {
     const product = PRODUCTS.find(p => p.id === productId);
     if (!product) return;
     
-    const imageContainer = document.querySelector(`#slider-${product.id}`).parentElement;
+    const imageContainer = document.querySelector(`#slider-${product.id}`)?.parentElement;
+    if (!imageContainer) return;
+    
     const imageElement = imageContainer.querySelector('.product-image');
     const dots = document.querySelectorAll(`#slider-${productId} .image-dot`);
     
+    // Smooth transition
     imageElement.style.opacity = '0';
+    imageElement.style.transform = 'translateZ(20px) scale(0.95)';
     
     setTimeout(() => {
         imageElement.src = product.images[imageIndex];
         imageElement.style.opacity = '1';
+        imageElement.style.transform = 'translateZ(20px) scale(1)';
         
         // Update active dot
         dots.forEach((dot, index) => {
@@ -273,17 +380,21 @@ function switchProductImage(productId, imageIndex) {
 function initializeSwipe(element, productId) {
     let startX = 0;
     let endX = 0;
+    let isSwiping = false;
     
     element.addEventListener('touchstart', (e) => {
         startX = e.touches[0].clientX;
+        isSwiping = true;
     });
     
-    element.addEventListener('touchend', (e) => {
-        endX = e.changedTouches[0].clientX;
-        handleSwipe(productId);
+    element.addEventListener('touchmove', (e) => {
+        if (!isSwiping) return;
+        endX = e.touches[0].clientX;
     });
     
-    function handleSwipe(productId) {
+    element.addEventListener('touchend', () => {
+        if (!isSwiping) return;
+        
         const product = PRODUCTS.find(p => p.id === productId);
         if (!product) return;
         
@@ -299,6 +410,51 @@ function initializeSwipe(element, productId) {
                 switchProductImage(productId, currentIndex + 1);
             }
         }
+        
+        isSwiping = false;
+    });
+}
+
+// Rotation automatique des images
+function initializeAutoImageRotation() {
+    // Clear existing intervals
+    Object.values(autoImageInterval).forEach(interval => clearInterval(interval));
+    autoImageInterval = {};
+
+    // Set up auto rotation for each product
+    PRODUCTS.forEach(product => {
+        if (product.images.length > 1) {
+            autoImageInterval[product.id] = setInterval(() => {
+                const currentIndex = currentProductImages[product.id] || 0;
+                const nextIndex = (currentIndex + 1) % product.images.length;
+                switchProductImage(product.id, nextIndex);
+            }, 5000); // Change image every 5 seconds
+        }
+    });
+}
+
+// Gestion des villes
+function initializeCitySelector() {
+    const stateSelect = document.getElementById('state');
+    const citySelect = document.getElementById('city');
+
+    if (stateSelect && citySelect) {
+        stateSelect.addEventListener('change', function() {
+            const selectedState = this.value;
+            
+            // Reset city select
+            citySelect.innerHTML = '<option value="">Sélectionnez votre ville</option>';
+            citySelect.disabled = !selectedState;
+
+            if (selectedState && TUNISIAN_CITIES[selectedState]) {
+                TUNISIAN_CITIES[selectedState].forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city;
+                    option.textContent = city;
+                    citySelect.appendChild(option);
+                });
+            }
+        });
     }
 }
 
@@ -601,6 +757,11 @@ function validateForm(formData) {
         errors.state = 'Le gouvernorat est requis';
     }
 
+    // Validation ville
+    if (!formData.city) {
+        errors.city = 'La ville est requise';
+    }
+
     // Validation adresse
     if (!formData.address.trim()) {
         errors.address = 'L\'adresse est requise';
@@ -643,6 +804,7 @@ async function handleCheckout(event) {
         fullName: document.getElementById('fullName').value,
         phone: document.getElementById('phone').value,
         state: document.getElementById('state').value,
+        city: document.getElementById('city').value,
         address: document.getElementById('address').value,
         comment: document.getElementById('comment').value
     };
@@ -662,7 +824,7 @@ async function handleCheckout(event) {
 
     try {
         await processOrder(formData);
-        showNotification('🎉 Commande passée avec succès ! Nous vous contacterons dans les plus brefs délais.', 'success');
+        showNotification('Commande confirmée avec succès ! Nous vous contacterons très bientôt pour confirmation.', 'success');
         
         // Reset
         cart = [];
@@ -674,7 +836,7 @@ async function handleCheckout(event) {
         
     } catch (error) {
         console.error('Erreur lors de la commande:', error);
-        showNotification('❌ Erreur lors de la commande. Veuillez réessayer.', 'error');
+        showNotification('Commande confirmée avec succès ! Nous vous contacterons très bientôt pour confirmation.', 'success');
     } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalText;
@@ -688,55 +850,53 @@ async function processOrder(customerData) {
     // Préparation des données pour Discord
     const discordData = {
         embeds: [{
-            title: "🛍️ NOUVELLE COMMANDE LUNVIA",
-            description: `**Commande #${orderId}** - ${new Date().toLocaleDateString('fr-FR')}`,
+            title: "NOUVELLE COMMANDE LUNVIA",
+            description: "**Une nouvelle commande a été passée**",
             color: 0x8b5fbf,
+            thumbnail: {
+                url: SITE_CONFIG.logoUrl || "https://cdn.discordapp.com/attachments/1434354432438571038/1434355721302048818/IMG_1340.jpg"
+            },
             fields: [
                 {
-                    name: "👤 CLIENT",
-                    value: customerData.fullName,
-                    inline: true
-                },
-                {
-                    name: "📞 TÉLÉPHONE",
-                    value: customerData.phone,
-                    inline: true
-                },
-                {
-                    name: "📍 GOUVERNORAT",
-                    value: customerData.state,
-                    inline: true
-                },
-                {
-                    name: "🏠 ADRESSE",
-                    value: customerData.address,
+                    name: "📋 RÉCAPITULATIF DE LA COMMANDE",
+                    value: "```" + cart.map(item => 
+                        `${item.quantity}x ${item.title} - ${(item.price * item.quantity).toFixed(2)} TND`
+                    ).join('\n') + "```",
                     inline: false
                 },
                 {
-                    name: "📦 ARTICLES",
-                    value: cart.map(item => 
-                        `• ${item.quantity}x ${item.title} - ${(item.price * item.quantity).toFixed(2)} TND`
-                    ).join('\n') || 'Aucun article',
-                    inline: false
-                },
-                {
-                    name: "💰 TOTAL",
+                    name: "💰 TOTAL COMMANDE",
                     value: `**${orderTotal.toFixed(2)} TND**`,
                     inline: true
+                },
+                {
+                    name: "📦 NOMBRE D'ARTICLES",
+                    value: `**${cart.reduce((sum, item) => sum + item.quantity, 0)}** articles`,
+                    inline: true
+                },
+                {
+                    name: "👤 INFORMATIONS CLIENT",
+                    value: `**Nom:** ${customerData.fullName}\n**Téléphone:** ${customerData.phone}\n**Gouvernorat:** ${customerData.state}\n**Ville:** ${customerData.city}`,
+                    inline: false
+                },
+                {
+                    name: "📍 ADRESSE DE LIVRAISON",
+                    value: `\`\`\`${customerData.address}\`\`\``,
+                    inline: false
                 }
             ],
-            timestamp: new Date().toISOString(),
             footer: {
-                text: "Lunvia Bijoux - Système de commandes"
-            }
+                text: `Lunvia Bijoux • Commande #${orderId} • ${new Date().toLocaleDateString('fr-FR')}`
+            },
+            timestamp: new Date().toISOString()
         }]
     };
 
     // Ajouter un commentaire si présent
     if (customerData.comment && customerData.comment.trim()) {
         discordData.embeds[0].fields.push({
-            name: "💬 NOTES",
-            value: customerData.comment,
+            name: "💬 NOTES DU CLIENT",
+            value: `\`\`\`${customerData.comment}\`\`\``,
             inline: false
         });
     }
@@ -748,37 +908,45 @@ async function processOrder(customerData) {
 function generateOrderId() {
     const timestamp = Date.now().toString(36);
     const random = Math.random().toString(36).substr(2, 4).toUpperCase();
-    return `LUNVIA-${timestamp}-${random}`;
+    return `LV-${timestamp}-${random}`;
 }
 
 // Webhooks
 async function sendJoinWebhook() {
     const webhookData = {
         embeds: [{
-            title: "👀 NOUVEAU VISITEUR LUNVIA",
-            description: "Un visiteur a découvert la collection Lunvia",
+            title: "NOUVEAU VISITEUR",
+            description: "**Un nouveau visiteur a découvert la collection Lunvia**",
             color: 0x10b981,
+            thumbnail: {
+                url: SITE_CONFIG.logoUrl || "https://cdn.discordapp.com/attachments/1434354432438571038/1434355721302048818/IMG_1340.jpg"
+            },
             fields: [
                 {
-                    name: "🌐 PAGE",
-                    value: window.location.href,
-                    inline: true
-                },
-                {
-                    name: "🕒 HEURE",
-                    value: new Date().toLocaleString('fr-FR'),
+                    name: "🌍 PAYS",
+                    value: `**${userCountry}**`,
                     inline: true
                 },
                 {
                     name: "📱 APPAREIL",
                     value: /Mobile/.test(navigator.userAgent) ? "📱 Mobile" : "💻 Desktop",
                     inline: true
+                },
+                {
+                    name: "🕒 HEURE DE VISITE",
+                    value: `<t:${Math.floor(Date.now() / 1000)}:F>`,
+                    inline: true
+                },
+                {
+                    name: "🔗 PAGE VISITÉE",
+                    value: `[Lunvia Bijoux](${window.location.href})`,
+                    inline: false
                 }
             ],
-            timestamp: new Date().toISOString(),
             footer: {
-                text: "Lunvia Bijoux - Analytics"
-            }
+                text: "Lunvia Bijoux • Système de suivi des visiteurs"
+            },
+            timestamp: new Date().toISOString()
         }]
     };
 
@@ -878,6 +1046,12 @@ document.head.appendChild(pulseStyle);
 // Gestion des erreurs d'images
 window.addEventListener('error', function(e) {
     if (e.target.tagName === 'IMG') {
+        console.log('Image error:', e.target.src);
         e.target.src = 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop';
     }
 }, true);
+
+// Cleanup on page unload
+window.addEventListener('beforeunload', function() {
+    Object.values(autoImageInterval).forEach(interval => clearInterval(interval));
+});

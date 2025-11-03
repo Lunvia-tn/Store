@@ -6,7 +6,7 @@ const WEBHOOK_CONFIG = {
 
 // Configuration du logo personnalisable
 const SITE_CONFIG = {
-    logoUrl: 'https://cdn.discordapp.com/attachments/1434354432438571038/1434964207970816060/IMG_20251103_185518.jpg?ex=690a3e0f&is=6908ec8f&hm=09f3443d22d2f9bb3451fcc93ae0a5816b47ef3dac4fc3f5c6ad1edc5781af36&'
+    logoUrl: 'https://cdn.discordapp.com/attachments/1434354432438571038/1435032844388007967/1000123785.png?ex=690a7dfb&is=69092c7b&hm=481d816b2b1a589b74e6464343fc868a202f9bd41f0c88ddc9497afe3ba6999a&'
 };
 
 // Données des villes tunisiennes par gouvernorat (étendu)
@@ -1066,3 +1066,4 @@ window.addEventListener('error', function(e) {
 window.addEventListener('beforeunload', function() {
     Object.values(autoImageInterval).forEach(interval => clearInterval(interval));
 });
+

@@ -6,33 +6,33 @@ const WEBHOOK_CONFIG = {
 
 // Configuration du logo personnalisable
 const SITE_CONFIG = {
-    logoUrl: 'https://cdn.discordapp.com/attachments/1434354432438571038/1435032844388007967/1000123785.png?ex=690a7dfb&is=69092c7b&hm=481d816b2b1a589b74e6464343fc868a202f9bd41f0c88ddc9497afe3ba6999a&'
+    logoUrl: 'https://i.imgur.com/WTrGCTW.png'
 };
 
 // Données des villes tunisiennes par gouvernorat (étendu)
 const TUNISIAN_CITIES = {
-    'Tunis': ['Tunis Centre', 'Bab Bhar', 'Carthage', 'Sidi Bou Said', 'La Marsa', 'Le Bardo', 'La Goulette', 'El Menzah', 'El Omrane', 'Ariana Ville', 'El Kram'],
-    'Ariana': ['Ariana Ville', 'Raoued', 'Mnihla', 'Kalaat Landalous', 'Sidi Thabet', 'Ettadhamen', 'Ennasr', 'Borj Louzir', 'Chotrana', 'Jardins de Carthage'],
-    'Ben Arous': ['Ben Arous', 'Megrine', 'Hammam Lif', 'Mornag', 'Radès', 'Fouchana', 'Mohamedia', 'Ez Zahra', 'Hammam Chatt', 'Bou Kornine', 'Nouvelle Médina'],
-    'Manouba': ['Manouba', 'Den Den', 'Douar Hicher', 'Oued Ellil', 'Mornaguia', 'Borj El Amri', 'Tebourba', 'El Battan', 'Jedaida', 'Mnihla El Gharbia'],
-    'Sousse': ['Sousse Médina', 'Sousse Riadh', 'Sousse Jawhara', 'Kalaa Kebira', 'Kalaa Seghira', 'Msaken', 'Akouda', 'Hammam Sousse', 'Bou Ficha', 'Enfidha', 'Sidi Bou Ali'],
-    'Sfax': ['Sfax Ville', 'Sakiet Ezzit', 'Sakiet Eddaier', 'Gremda', 'El Ain', 'Thyna', 'Agareb', 'Jebeniana', 'Mahres', 'Bir Ali Ben Khalifa', 'Skhira'],
-    'Nabeul': ['Nabeul', 'Hammamet', 'Kélibia', 'Korba', 'Menzel Temime', 'Beni Khiar', 'Dar Chaabane', 'Grombalia', 'Takelsa', 'Menzel Bouzelfa', 'Béni Khalled'],
-    'Bizerte': ['Bizerte', 'Menzel Bourguiba', 'Mateur', 'Sejnane', 'Raf Raf', 'Menzel Jemil', 'El Alia', 'Ghar El Melh', 'Aousja', 'Tinja', 'Joumine'],
-    'Monastir': ['Monastir', 'Moknine', 'Bembla', 'Ksar Hellal', 'Sahline', 'Ouerdanine', 'Zéramdine', 'Beni Hassen', 'Jemmal', 'Téboulba', 'Bekalta'],
-    'Kairouan': ['Kairouan', 'Chebika', 'Haffouz', 'Oueslatia', 'Sbikha', 'Bou Hajla', 'Hajeb El Ayoun', 'Nasrallah', 'El Alâa', 'Aïn Djeloula', 'Chaal'],
-    'Gabès': ['Gabès', 'Ghannouche', 'Matmata', 'Mareth', 'Menzel Habib', 'El Hamma', 'Nouvelle Matmata', 'Métouia', 'Oudhref', 'Chenini Nahal', 'Mansoura'],
-    'Gafsa': ['Gafsa', 'El Ksar', 'Métlaoui', 'Moularès', 'Redeyef', 'Sidi Aïch', 'Sned', 'Belkhir', 'Mdhilla', 'Lela', 'Guetar'],
-    'Tozeur': ['Tozeur', 'Degache', 'Nefta', 'Tamerza', 'Hezoua', 'El Hamma du Jérid', 'Chebika Oasis', 'Midès', 'Ouled El Hadef'],
-    'Médenine': ['Médenine', 'Ben Gardane', 'Zarzis', 'Djerba', 'Sidi Makhlouf', 'Ajim', 'Houmt Souk', 'Midoun', 'Guelta', 'Bou Grara', 'Sidi Mahjoub'],
-    'Tataouine': ['Tataouine', 'Ghomrassen', 'Remada', 'Bir Lahmar', 'Dehiba', 'Smâr', 'Ksar Ouled Soltane', 'Ksar Hadada', 'Chenini', 'Douiret'],
-    'Kébili': ['Kébili', 'Douz', 'Souk Lahad', 'Faouar', 'El Golâa', 'Jemna', 'Béchri', 'Menchia', 'Rjim Maatoug'],
-    'Siliana': ['Siliana', 'Bou Arada', 'Gaâfour', 'El Krib', 'Maktar', 'Rohia', 'Kesra', 'Bargou', 'El Aroussa', 'Merouane'],
+    'Tunis': ['Tunis', 'Le Bardo', 'Le Kram', 'La Goulette', 'La Marsa', 'Carthage', 'Sidi Bou Saïd', 'El Menzah', 'El Omrane'],
+    'Ariana': ['Ariana', 'Ettadhamen-Mnihla', 'Raoued', 'Kalâat el-Andalous', 'Sidi Thabet', 'La Soukra'],
+    'Ben Arous': ['Ben Arous', 'El Mourouj', 'Hammam Lif', 'Hammam Chott', 'Radès', 'Mégrine', 'Mohamedia', 'Fouchana', 'Ez-Zahra', 'Mornag'],
+    'Manouba': ['Manouba', 'Douar Hicher', 'Oued Ellil', 'Mornaguia', 'Borj El Amri', 'Tebourba', 'El Battan', 'Jedaïda', 'Den Den'],
+    'Nabeul': ['Nabeul', 'Hammamet', 'Kélibia', 'Korba', 'Menzel Temime', 'Beni Khiar', 'Dar Chaabane', 'Grombalia', 'Takelsa', 'Menzel Bouzelfa', 'Béni Khalled', 'Bou Argoub', 'El Haouaria', 'Soliman', 'Korbous', 'Azmour', 'Hammam Ghezèze', 'Daoui', 'Chaal', 'Koutine'],
+    'Sousse': ['Sousse', 'Msaken', 'Akouda', 'Hammam Sousse', 'Kalaa Kebira', 'Kalaa Seghira', 'Sidi Bou Ali', 'Enfidha', 'Bouficha', 'Hergla', 'Kalâa El Mdhilla', 'Kondar'],
+    'Sfax': ['Sfax', 'Sakiet Ezzit', 'Sakiet Eddaïer', 'Gremda', 'El Ain', 'Thyna', 'Agareb', 'Jebiniana', 'Mahres', 'Bir Ali Ben Khalifa', 'Skhira', 'Kerkennah', 'El Hencha', 'Menzel Chaker'],
+    'Bizerte': ['Bizerte', 'Menzel Bourguiba', 'Mateur', 'Sejnane', 'Raf Raf', 'Menzel Jemil', 'El Alia', 'Ghar El Melh', 'Aousja', 'Tinja', 'Joumine', 'Zahret Medien', 'Metline', 'Ras Jebel'],
+    'Monastir': ['Monastir', 'Moknine', 'Bembla', 'Ksar Hellal', 'Sahline', 'Ouerdanine', 'Zéramdine', 'Beni Hassen', 'Jemmal', 'Téboulba', 'Bekalta', 'Lamta', 'Bouhjar', 'Cherahil', 'Sidi Ben Nour'],
+    'Kairouan': ['Kairouan', 'Chebika', 'Haffouz', 'Oueslatia', 'Sbikha', 'Bou Hajla', 'Hajeb El Ayoun', 'Nasrallah', 'El Alâa', 'Aïn Djeloula', 'Chaal', 'Menzel Mehiri'],
+    'Gabès': ['Gabès', 'Ghannouche', 'Matmata', 'Mareth', 'Menzel Habib', 'El Hamma', 'Nouvelle Matmata', 'Métouia', 'Oudhref', 'Chenini Nahal'],
+    'Gafsa': ['Gafsa', 'El Ksar', 'Métlaoui', 'Moularès', 'Redeyef', 'Sidi Aïch', 'Sned', 'Belkhir', 'Mdhilla', 'Lela'],
+    'Tozeur': ['Tozeur', 'Degache', 'Nefta', 'Tamerza', 'Hezoua', 'El Hamma du Jérid'],
+    'Médenine': ['Médenine', 'Ben Gardane', 'Zarzis', 'Houmt Souk', 'Midoun', 'Ajim', 'Sidi Makhlouf', 'Guelta', 'Bou Grara'],
+    'Tataouine': ['Tataouine', 'Ghomrassen', 'Remada', 'Bir Lahmar', 'Dehiba', 'Smâr'],
+    'Kébili': ['Kébili', 'Douz', 'Souk Lahad', 'Faouar', 'El Golâa'],
+    'Siliana': ['Siliana', 'Bou Arada', 'Gaâfour', 'El Krib', 'Maktar', 'Rohia', 'Kesra', 'Bargou', 'El Aroussa'],
     'Kasserine': ['Kasserine', 'Sbeitla', 'Fériana', 'Thala', 'Haïdra', 'Jedelienne', 'El Ayoun', 'Hassi El Frid', 'Foussana', 'Thélepte'],
-    'Mahdia': ['Mahdia', 'Rejiche', 'Bou Merdes', 'Ouled Chamekh', 'Chebba', 'El Jem', 'Souassi', 'Chorbane', 'Melloulèche', 'Hiboun', 'Kerkenah'],
-    'Zaghouan': ['Zaghouan', 'Zriba', 'Bir Mcherga', 'El Fahs', 'Nadhour', 'Saouaf', 'Djebel Oust', 'Hammam Zriba', 'Aïn Draham Zaghouan'],
-    'Béja': ['Béja', 'Medjez el Bab', 'Nefza', 'Téboursouk', 'Testour', 'Amdoun', 'Goubellat', 'El Maâgoula', 'Sidi Ismail', 'Ksar Tyr'],
-    'Jendouba': ['Jendouba', 'Bou Salem', 'Tabarka', 'Aïn Draham', 'Fernana', 'Ghardimaou', 'Balta Bou Aouene', 'Oued Mliz', 'Beni M\'tir'],
+    'Mahdia': ['Mahdia', 'Rejiche', 'Bou Merdes', 'Ouled Chamekh', 'Chebba', 'El Jem', 'Souassi', 'Chorbane', 'Melloulèche', 'Hiboun'],
+    'Zaghouan': ['Zaghouan', 'Zriba', 'Bir Mcherga', 'El Fahs', 'Nadhour'],
+    'Béja': ['Béja', 'Medjez el Bab', 'Nefza', 'Téboursouk', 'Testour', 'Amdoun', 'Goubellat'],
+    'Jendouba': ['Jendouba', 'Bou Salem', 'Tabarka', 'Aïn Draham', 'Fernana', 'Ghardimaou', 'Balta Bou Aouene', 'Oued Mliz'],
     'Le Kef': ['Le Kef', 'Dahmani', 'Tajerouine', 'Sakiet Sidi Youssef', 'Nebeur', 'Kalâat Khasba', 'Jerissa', 'El Ksour', 'Sers', 'Touiref']
 };
 
@@ -46,8 +46,8 @@ const PRODUCTS = [
         currency: 'TND',
         category: 'bracelets',
         images: [
-            'https://cdn.discordapp.com/attachments/1434354432438571038/1434963574899609640/IMG_20251103_185246.jpg?ex=690a3d78&is=6908ebf8&hm=98080f4fc24482c48a18873dbdc13a6adbba0e0a563dd07c292d5626ca640d33&',
-            'https://cdn.discordapp.com/attachments/1434354432438571038/1434964207970816060/IMG_20251103_185518.jpg?ex=690a3e0f&is=6908ec8f&hm=09f3443d22d2f9bb3451fcc93ae0a5816b47ef3dac4fc3f5c6ad1edc5781af36&'
+            'https://i.imgur.com/T77UOud.jpeg',
+            'https://i.imgur.com/UdoumtP.jpeg'
         ],
         featured: true
     },
@@ -85,8 +85,8 @@ const PRODUCTS = [
         currency: 'TND',
         category: 'chains',
         images: [
-            'https://cdn.discordapp.com/attachments/1434670153567572038/1434684959142187038/1762125869791.png?ex=690939fd&is=6907e87d&hm=058c65e17b23239b6a0830b32df886ad2244386e692d14bd43562b9ea6dca4b4&',
-            'https://cdn.discordapp.com/attachments/1434670153567572038/1434684968650674348/1762125705384.png?ex=690939ff&is=6907e87f&hm=c29421cf348a2099843ee20c7d938a6a11f9441d50bcc550ddf93ff1b8055d64&'
+            'https://i.imgur.com/TQIo4O9.png',
+            'https://i.imgur.com/10UVMru.png'
         ],
         featured: true
     },
@@ -98,8 +98,8 @@ const PRODUCTS = [
         currency: 'TND',
         category: 'chains',
         images: [
-            'https://cdn.discordapp.com/attachments/1434670153567572038/1434677716543602738/1000123541.png?ex=6909333e&is=6907e1be&hm=84e959352b95b2e63c263939eb3f048ef65fa69ba36090ec2f4c2f95c2692cae&',
-            'https://cdn.discordapp.com/attachments/1434670153567572038/1434677705592537162/1000123560.png?ex=6909333c&is=6907e1bc&hm=9859043a594ee4033cb3ea3def03379bb1bcb15ea81e2cd066aba6508e998e77&'
+            'https://i.imgur.com/cZDRFEp.png',
+            'https://i.imgur.com/BDp3p6U.png'
         ],
         featured: false
     },
@@ -111,8 +111,60 @@ const PRODUCTS = [
         currency: 'TND',
         category: 'chains',
         images: [
-            'https://cdn.discordapp.com/attachments/1434354432438571038/1434688441555095725/1762126412478.png?ex=69093d3b&is=6907ebbb&hm=23fb13646b2ef4fb54b386a0c92a87db9ad07faf9b35e58dd2a59be9a679d62e&',
-            'https://cdn.discordapp.com/attachments/1434354432438571038/1434688451709767843/1762126511954.png?ex=69093d3e&is=6907ebbe&hm=7780001a7488de7744ffd5aee9b977a639a22eafc8e8dcdd11767bf0d90fe768&'
+            'https://i.imgur.com/uXVGO8k.png',
+            'https://i.imgur.com/OyDozn3.png'
+        ],
+        featured: true
+    },
+    {
+        id: 'p7',
+        title: 'bague',
+        description: 'Une bague AcierInoxydable audacieuse, mariant un pavage de cristaux étincelant avec une monture ajourée en or lumineux',
+        price: 24.900,
+        currency: 'TND',
+        category: 'rings',
+        images: [
+            'https://i.imgur.com/phLKguZ.jpeg',
+            'https://i.imgur.com/B85R77p.jpeg'
+        ],
+        featured: true
+    },
+    {
+        id: 'p8',
+        title: 'bague',
+        description: 'Cette bague AcierInoxydable offre un design moderne et audacieux, où des rangs lisses dorés encadrent un anneau central entièrement pavé de cristaux.',
+        price: 24.900,
+        currency: 'TND',
+        category: 'rings',
+        images: [
+            'https://i.imgur.com/9gGmyUX.jpeg',
+            'https://i.imgur.com/4CScQuz.jpeg'
+        ],
+        featured: true
+    },
+    {
+        id: 'p9',
+        title: 'bague',
+        description: 'Bague AcierInoxydable de type chevalière, au design géométrique et ajouré, rehaussée de pavés de cristaux étincelants aux angles pour un style architectural unique.',
+        price: 24.900,
+        currency: 'TND',
+        category: 'rings',
+        images: [
+            'https://i.imgur.com/RXrjt9L.jpeg',
+            'https://i.imgur.com/4yfHxEg.jpeg'
+        ],
+        featured: true
+    },
+    {
+        id: 'p10',
+        title: 'bague',
+        description: 'Bague AcierInoxydable très large de type chevalière, caractérisée par sa forme bouclier et entièrement recouverte d un pavé dense de cristaux pour un éclat maximal.',
+        price: 24.900,
+        currency: 'TND',
+        category: 'rings',
+        images: [
+            'https://i.imgur.com/U9Nulud.jpeg',
+            'https://i.imgur.com/BriPFrJ.jpeg'
         ],
         featured: true
     }
@@ -154,14 +206,14 @@ function initializeLogo() {
     if (logoImage && SITE_CONFIG.logoUrl) {
         logoImage.src = SITE_CONFIG.logoUrl;
         logoImage.onerror = function() {
-            this.src = 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=100&h=100&fit=crop';
+            this.src = 'https://i.imgur.com/WTrGCTW.png';
         };
     }
     
     if (footerLogo && SITE_CONFIG.logoUrl) {
         footerLogo.src = SITE_CONFIG.logoUrl;
         footerLogo.onerror = function() {
-            this.src = 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=100&h=100&fit=crop';
+            this.src = 'https://i.imgur.com/WTrGCTW.png';
         };
     }
 }
@@ -310,7 +362,7 @@ function createProductCard(product, index) {
     card.innerHTML = `
         <div class="product-image-container">
             <img src="${product.images[0]}" alt="${product.title}" class="product-image" 
-                 onerror="this.src='https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop'">
+                 onerror="this.src='https://i.imgur.com/WTrGCTW.png'">
             <div class="product-image-slider" id="slider-${product.id}">
                 ${product.images.map((_, imgIndex) => 
                     `<div class="image-dot ${imgIndex === 0 ? 'active' : ''}" 
@@ -865,7 +917,7 @@ async function processOrder(customerData) {
             description: "**Une nouvelle commande a été passée**",
             color: 0x8b5fbf,
             thumbnail: {
-                url: SITE_CONFIG.logoUrl || "https://cdn.discordapp.com/attachments/1434354432438571038/1434355721302048818/IMG_1340.jpg"
+                url: SITE_CONFIG.logoUrl || "https://i.imgur.com/WTrGCTW.png"
             },
             fields: [
                 {
@@ -930,7 +982,7 @@ async function sendJoinWebhook() {
             description: "**Un nouveau visiteur a découvert la collection Lunvia**",
             color: 0x10b981,
             thumbnail: {
-                url: SITE_CONFIG.logoUrl || "https://cdn.discordapp.com/attachments/1434354432438571038/1434355721302048818/IMG_1340.jpg"
+                url: SITE_CONFIG.logoUrl || "https://i.imgur.com/WTrGCTW.png"
             },
             fields: [
                 {
@@ -1058,7 +1110,7 @@ document.head.appendChild(pulseStyle);
 window.addEventListener('error', function(e) {
     if (e.target.tagName === 'IMG') {
         console.log('Image error:', e.target.src);
-        e.target.src = 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop';
+        e.target.src = 'https://i.imgur.com/WTrGCTW.png';
     }
 }, true);
 

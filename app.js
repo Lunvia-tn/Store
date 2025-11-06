@@ -1137,3 +1137,8 @@ window.addEventListener('error', function(e) {
 window.addEventListener('beforeunload', function() {
     Object.values(autoImageInterval).forEach(interval => clearInterval(interval));
 });
+
+const importantFunction = () => {
+    console.log("Running critical code safely");
+};
+protect(importantFunction);

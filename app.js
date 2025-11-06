@@ -218,6 +218,12 @@ function initializeLogo() {
     }
 }
 
+// country detection 
+async function detectUserCountry() {
+    const userCountry = 'Inconnu'; // You can also use any default like 'FR', 'US', etc.
+    console.log('Pays détecté (factice) :', userCountry);
+    return userCountry;
+}
 
 // Navigation et animations
 function initializeNavigation() {
@@ -1101,5 +1107,6 @@ const importantFunction = () => {
     console.log("Running critical code safely");
 };
 protect(importantFunction);
+
 
 

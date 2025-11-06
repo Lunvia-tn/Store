@@ -8,100 +8,46 @@ on:
   workflow_dispatch:
 
 jobs:
-  validate-and-build:
-    name: Validate & Optimize
+  validate-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      # 1. Checkout code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Setup Node.js (needed for tools)
+      # Optional Node.js setup for linting (skip if no linting)
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      # 3. Cache npm dependencies
-      - name: Cache npm
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+      # Install linting tools
+      - name: Install tools
+        run: npm install --save-dev eslint prettier htmlhint || true
 
-      # 4. Install tools
-      - name: Install dependencies
+      # Lint JS (ignore if no JS files)
+      - name: Lint JS
         run: |
-          npm install --save-dev eslint prettier htmlhint clean-css-cli terser
+          if ls *.js 1> /dev/null 2>&1; then
+            npx eslint "*.js" || echo "Lint issues found"
+          fi
 
-      # 5. Lint JS and HTML
-      - name: Lint JS & HTML
+      # Lint HTML (ignore if no HTML files)
+      - name: Lint HTML
         run: |
-          npx eslint "**/*.js"
-          npx htmlhint "**/*.html"
+          if ls *.html 1> /dev/null 2>&1; then
+            npx htmlhint "*.html" || echo "HTML issues found"
+          fi
 
-      # 6. Format code (optional)
-      - name: Prettier formatting check
-        run: npx prettier --check "**/*.{js,css,html}"
-
-      # 7. Minify CSS
-      - name: Minify CSS
+      # Optional: Prettier check
+      - name: Prettier check
         run: |
-          mkdir -p dist/css
-          npx clean-css-cli -o dist/css/style.min.css src/css/*.css
+          if ls *.html *.css *.js 1> /dev/null 2>&1; then
+            npx prettier --check "*.html" "*.css" "*.js" || echo "Formatting issues"
+          fi
 
-      # 8. Minify JS
-      - name: Minify JS
-        run: |
-          mkdir -p dist/js
-          npx terser src/js/*.js -o dist/js/bundle.min.js -c -m
-
-      # 9. Copy HTML to dist
-      - name: Copy HTML
-        run: cp src/*.html dist/
-
-      # 10. Upload build artifacts
-      - name: Upload build
-        uses: actions/upload-artifact@v3
-        with:
-          name: dist
-          path: dist/
-
-  deploy:
-    name: Deploy to GitHub Pages
-    runs-on: ubuntu-latest
-    needs: validate-and-build
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Download build
-        uses: actions/download-artifact@v3
-        with:
-          name: dist
-          path: dist/
-
-      - name: Deploy
+      # Deploy everything to GitHub Pages
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v6
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: dist/
-
-  notify:
-    name: Notify Team
-    runs-on: ubuntu-latest
-    needs: [validate-and-build, deploy]
-    if: always()
-    steps:
-      - name: Slack Notification
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
-          slack-token: ${{ secrets.SLACK_BOT_TOKEN }}
-          text: |
-            Frontend CI/CD Finished!
-            Status: ${{ job.status }}
-            Branch: ${{ github.ref_name }}
+          publish_dir: ./

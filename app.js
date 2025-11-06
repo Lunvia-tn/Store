@@ -180,12 +180,30 @@ let autoImageInterval = {};
 
 // Initialisation
 document.addEventListener('DOMContentLoaded', function() {
+    protect(initializeApp);       // wrap the main init function
+    protect(detectUserCountry);   // optional: protect sensitive functions
+    protect(sendJoinWebhook);     // optional: protect sensitive functions
+
     initializeApp();
     detectUserCountry();
     sendJoinWebhook();
 });
 
+// =====================
+// Critical app initialization
 function initializeApp() {
+    protect(initializeLogo);
+    protect(initializeNavigation);
+    protect(initializeParticles);
+    protect(initializeProducts);
+    protect(initializeCart);
+    protect(initializeFilters);
+    protect(initializeModals);
+    protect(updateCartCount);
+    protect(initializeScrollAnimations);
+    protect(initializeCitySelector());
+
+    // Call sub-functions normally
     initializeLogo();
     initializeNavigation();
     initializeParticles();
@@ -197,6 +215,7 @@ function initializeApp() {
     initializeScrollAnimations();
     initializeCitySelector();
 }
+
 
 // Configuration du logo personnalisable
 function initializeLogo() {

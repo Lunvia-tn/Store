@@ -1,36 +1,107 @@
-# This is a basic workflow to help you get started with Actions
+name: Super Fast Frontend CI/CD
 
-name: CI
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  validate-and-build:
+    name: Validate & Optimize
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+      # 1. Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      # 2. Setup Node.js (needed for tools)
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      # 3. Cache npm dependencies
+      - name: Cache npm
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # 4. Install tools
+      - name: Install dependencies
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          npm install --save-dev eslint prettier htmlhint clean-css-cli terser
+
+      # 5. Lint JS and HTML
+      - name: Lint JS & HTML
+        run: |
+          npx eslint "**/*.js"
+          npx htmlhint "**/*.html"
+
+      # 6. Format code (optional)
+      - name: Prettier formatting check
+        run: npx prettier --check "**/*.{js,css,html}"
+
+      # 7. Minify CSS
+      - name: Minify CSS
+        run: |
+          mkdir -p dist/css
+          npx clean-css-cli -o dist/css/style.min.css src/css/*.css
+
+      # 8. Minify JS
+      - name: Minify JS
+        run: |
+          mkdir -p dist/js
+          npx terser src/js/*.js -o dist/js/bundle.min.js -c -m
+
+      # 9. Copy HTML to dist
+      - name: Copy HTML
+        run: cp src/*.html dist/
+
+      # 10. Upload build artifacts
+      - name: Upload build
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist/
+
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: validate-and-build
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download build
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: dist/
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: dist/
+
+  notify:
+    name: Notify Team
+    runs-on: ubuntu-latest
+    needs: [validate-and-build, deploy]
+    if: always()
+    steps:
+      - name: Slack Notification
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          slack-token: ${{ secrets.SLACK_BOT_TOKEN }}
+          text: |
+            Frontend CI/CD Finished!
+            Status: ${{ job.status }}
+            Branch: ${{ github.ref_name }}

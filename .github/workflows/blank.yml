@@ -11,43 +11,45 @@ jobs:
   validate-and-deploy:
     runs-on: ubuntu-latest
     steps:
+      # 1. Checkout repository
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Optional Node.js setup for linting (skip if no linting)
+      # 2. Setup Node.js (needed for linting and formatting)
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      # Install linting tools
+      # 3. Install linting and formatting tools
       - name: Install tools
-        run: npm install --save-dev eslint prettier htmlhint || true
+        run: |
+          npm install --save-dev eslint prettier htmlhint || true
 
-      # Lint JS (ignore if no JS files)
+      # 4. Lint JS files (skip if none)
       - name: Lint JS
         run: |
           if ls *.js 1> /dev/null 2>&1; then
             npx eslint "*.js" || echo "Lint issues found"
           fi
 
-      # Lint HTML (ignore if no HTML files)
+      # 5. Lint HTML files (skip if none)
       - name: Lint HTML
         run: |
           if ls *.html 1> /dev/null 2>&1; then
             npx htmlhint "*.html" || echo "HTML issues found"
           fi
 
-      # Optional: Prettier check
+      # 6. Prettier formatting check (skip if none)
       - name: Prettier check
         run: |
           if ls *.html *.css *.js 1> /dev/null 2>&1; then
-            npx prettier --check "*.html" "*.css" "*.js" || echo "Formatting issues"
+            npx prettier --check "*.html" "*.css" "*.js" || echo "Formatting issues found"
           fi
 
-      # Deploy everything to GitHub Pages
+      # 7. Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v6
+        uses: peaceiris/actions-gh-pages@v6.5.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./

@@ -5,7 +5,7 @@
     const isMobile = /Mobi|Android/i.test(navigator.userAgent);
 
     // =====================
-    // 1. Full Event Blocking (desktop only where appropriate)
+    // 1. Full Event Blocking (desktop only)
     if(!isMobile){
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.addEventListener('selectstart', e => e.preventDefault());
@@ -17,12 +17,24 @@
 
     // Touch gestures (mobile safe)
     if(isMobile){
+        // Remove tap highlight and disable text selection on mobile
+        const style = document.createElement('style');
+        style.innerHTML = `
+            * {
+                -webkit-tap-highlight-color: transparent; /* remove blue tap highlight */
+                -webkit-user-select: none;  /* disable text selection */
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+        `;
+        document.head.appendChild(style);
+
         document.addEventListener('touchstart', function(e){
             if(e.touches.length > 1){
                 e.preventDefault(); // only block multi-touch (pinch/zoom)
             }
         }, { passive: false });
-        // gesturestart blocking removed for compatibility
     }
 
     // =====================

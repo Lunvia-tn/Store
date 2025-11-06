@@ -1,111 +1,131 @@
 (function(){
     "use strict";
 
+    // =====================
     // Detect mobile
     const isMobile = /Mobi|Android/i.test(navigator.userAgent);
 
     // =====================
-    // 1. Full Event Blocking (desktop only)
-    if(!isMobile){
-        document.addEventListener('contextmenu', e => e.preventDefault());
-        document.addEventListener('selectstart', e => e.preventDefault());
-        document.addEventListener('dragstart', e => e.preventDefault());
-        document.addEventListener('copy', e => e.preventDefault());
-        document.addEventListener('cut', e => e.preventDefault());
-        document.addEventListener('paste', e => e.preventDefault());
-    }
-
-    // =====================
-    // 2. Mobile fixes: remove tap highlight, prevent unwanted selection
+    // 1. Mobile protections: remove tap highlight, disable unwanted selection
     if(isMobile){
         const style = document.createElement('style');
         style.innerHTML = `
             * {
-                -webkit-tap-highlight-color: transparent !important; /* remove blue tap highlight */
-                -webkit-user-select: none !important;  /* disable text selection */
+                -webkit-tap-highlight-color: transparent !important;
+                -webkit-user-select: none !important;
                 -moz-user-select: none !important;
                 -ms-user-select: none !important;
                 user-select: none !important;
-                outline: none !important; /* remove focus outline */
+                outline: none !important;
             }
             input, textarea, select {
-                -webkit-user-select: text !important; /* allow typing */
+                -webkit-user-select: text !important;
                 user-select: text !important;
-                outline: auto !important; /* normal input outline */
+                outline: auto !important;
             }
             a, button {
-                -webkit-tap-highlight-color: transparent !important; /* remove tap on links/buttons */
+                -webkit-tap-highlight-color: transparent !important;
             }
         `;
         document.head.appendChild(style);
 
-        // Prevent multi-touch gestures (pinch/zoom)
-        document.addEventListener('touchstart', function(e){
-            if(e.touches.length > 1){
-                e.preventDefault();
-            }
+        document.addEventListener('touchstart', e => {
+            if(e.touches.length > 1) e.preventDefault(); // prevent multi-touch
         }, { passive: false });
     }
 
     // =====================
-    // 3. Disable Keyboard Shortcuts (desktop only)
+    // 2. Desktop protections
     if(!isMobile){
+
+        // Anti-right click, anti-selection, drag, copy/paste
+        ['contextmenu','selectstart','dragstart','copy','cut','paste'].forEach(evt=>{
+            document.addEventListener(evt, e => e.preventDefault());
+        });
+
+        // Anti keyboard shortcuts (DevTools, View Source)
         document.addEventListener('keydown', e => {
-            const blocked = ["F12", "I", "J", "C", "U", "S"];
-            if (
+            const blocked = ["F12","I","J","C","U","S"];
+            if(
                 e.key === "F12" ||
                 (e.ctrlKey && e.shiftKey && blocked.includes(e.key)) ||
                 (e.ctrlKey && blocked.includes(e.key))
-            ) {
-                e.preventDefault();
-            }
+            ) e.preventDefault();
         });
-    }
 
-    // =====================
-    // 4. Detect DevTools (desktop only)
-    if(!isMobile){
+        // Anti-iframe embedding
+        if(window.top !== window.self){
+            window.top.location = window.location;
+        }
+
+        // DevTools detection
         let devtoolsOpen = false;
-        const threshold = 200; 
+        const threshold = 200;
         const checkDevTools = () => {
             const widthDiff = window.outerWidth - window.innerWidth > threshold;
             const heightDiff = window.outerHeight - window.innerHeight > threshold;
             const isOpen = widthDiff || heightDiff;
             if(isOpen && !devtoolsOpen){
                 devtoolsOpen = true;
-                console.warn('DevTools detected!');
-            } else if(!isOpen){
-                devtoolsOpen = false;
-            }
+                alert('DevTools detected! Page will be blocked.');
+                location.href = 'about:blank'; // Optional: redirect
+            } else if(!isOpen) devtoolsOpen = false;
         };
-        setInterval(checkDevTools, 1500);
+        setInterval(checkDevTools, 1000);
+
+        // Anti-clone overlay
+        const overlay = document.createElement('div');
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100vw';
+        overlay.style.height = '100vh';
+        overlay.style.backgroundColor = 'rgba(255,255,255,0.98)';
+        overlay.style.color = '#000';
+        overlay.style.zIndex = '999999';
+        overlay.style.display = 'none';
+        overlay.style.justifyContent = 'center';
+        overlay.style.alignItems = 'center';
+        overlay.style.fontSize = '24px';
+        overlay.style.textAlign = 'center';
+        overlay.innerText = 'Viewing source or copying content is disabled!';
+        document.body.appendChild(overlay);
+
+        const showOverlay = () => overlay.style.display = 'flex';
+        const hideOverlay = () => overlay.style.display = 'none';
+
+        document.addEventListener('keydown', e => {
+            if(e.ctrlKey && e.key === 'u') showOverlay();
+        });
+        document.addEventListener('contextmenu', showOverlay);
+        document.addEventListener('copy', showOverlay);
     }
 
     // =====================
-    // 5. Console tampering protection (safe version)
-    (function consoleProtection() {
+    // 3. Console tampering protection
+    (function consoleProtection(){
         const originalConsole = console.log;
         window.console.log = function(...args){
-            try {
-                originalConsole.apply(console, args);
-            } catch(e) {}
+            try { originalConsole.apply(console, args); } catch(e){}
         };
-    })();
 
-    // =====================
-    // 6. Input XSS protection
-    (function xssProtection() {
-        const unsafeChars = ['<', '>', '"', "'", '(', ')', ';', '{', '}', '='];
-        document.body.addEventListener('input', e => {
-            const val = e.target.value;
-            if (unsafeChars.some(ch => val.includes(ch))) {
-                e.target.value = '';
-            }
+        ['log','warn','error','info','debug'].forEach(method=>{
+            Object.defineProperty(console, method, { configurable: false, writable: false });
         });
     })();
 
     // =====================
-    // 7. Critical function wrapper
+    // 4. Input XSS / unsafe character protection
+    (function xssProtection(){
+        const unsafeChars = ['<','>','"',"'",'(',')',';','{','}','='];
+        document.body.addEventListener('input', e => {
+            const val = e.target.value;
+            if(unsafeChars.some(ch => val.includes(ch))) e.target.value = '';
+        });
+    })();
+
+    // =====================
+    // 5. Critical function wrapper
     window.protect = function(fn){
         try { fn(); } catch(e) {}
     };

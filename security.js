@@ -6,10 +6,11 @@
     const isMobile = /Mobi|Android/i.test(navigator.userAgent);
 
     // =====================
-    // 1. Mobile protections: remove tap highlight, disable unwanted selection
+    // 1. Mobile protections
     if(isMobile){
         const style = document.createElement('style');
         style.innerHTML = `
+            /* Remove tap highlight and prevent unwanted selection */
             * {
                 -webkit-tap-highlight-color: transparent !important;
                 -webkit-user-select: none !important;
@@ -18,32 +19,42 @@
                 user-select: none !important;
                 outline: none !important;
             }
+
             input, textarea, select {
                 -webkit-user-select: text !important;
                 user-select: text !important;
                 outline: auto !important;
             }
+
             a, button {
                 -webkit-tap-highlight-color: transparent !important;
+                outline: none !important;
+            }
+
+            /* Remove focus and active styles */
+            a:focus, button:focus,
+            a:active, button:active {
+                outline: none !important;
+                box-shadow: none !important;
             }
         `;
         document.head.appendChild(style);
 
+        // Prevent multi-touch zoom
         document.addEventListener('touchstart', e => {
-            if(e.touches.length > 1) e.preventDefault(); // prevent multi-touch
+            if(e.touches.length > 1) e.preventDefault();
         }, { passive: false });
     }
 
     // =====================
     // 2. Desktop protections
     if(!isMobile){
-
-        // Anti-right click, anti-selection, drag, copy/paste
-        ['contextmenu','selectstart','dragstart','copy','cut','paste'].forEach(evt=>{
+        // Disable right-click, selection, drag, copy/paste
+        ['contextmenu','selectstart','dragstart','copy','cut','paste'].forEach(evt => {
             document.addEventListener(evt, e => e.preventDefault());
         });
 
-        // Anti keyboard shortcuts (DevTools, View Source)
+        // Disable keyboard shortcuts (DevTools, view source)
         document.addEventListener('keydown', e => {
             const blocked = ["F12","I","J","C","U","S"];
             if(
@@ -68,7 +79,7 @@
             if(isOpen && !devtoolsOpen){
                 devtoolsOpen = true;
                 alert('DevTools detected! Page will be blocked.');
-                location.href = 'about:blank'; // Optional: redirect
+                location.href = 'about:blank';
             } else if(!isOpen) devtoolsOpen = false;
         };
         setInterval(checkDevTools, 1000);
@@ -108,7 +119,6 @@
         window.console.log = function(...args){
             try { originalConsole.apply(console, args); } catch(e){}
         };
-
         ['log','warn','error','info','debug'].forEach(method=>{
             Object.defineProperty(console, method, { configurable: false, writable: false });
         });

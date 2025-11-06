@@ -15,30 +15,40 @@
         document.addEventListener('paste', e => e.preventDefault());
     }
 
-    // Touch gestures (mobile safe)
+    // =====================
+    // 2. Mobile fixes: remove tap highlight, prevent unwanted selection
     if(isMobile){
-        // Remove tap highlight and disable text selection on mobile
         const style = document.createElement('style');
         style.innerHTML = `
             * {
-                -webkit-tap-highlight-color: transparent; /* remove blue tap highlight */
-                -webkit-user-select: none;  /* disable text selection */
-                -moz-user-select: none;
-                -ms-user-select: none;
-                user-select: none;
+                -webkit-tap-highlight-color: transparent !important; /* remove blue tap highlight */
+                -webkit-user-select: none !important;  /* disable text selection */
+                -moz-user-select: none !important;
+                -ms-user-select: none !important;
+                user-select: none !important;
+                outline: none !important; /* remove focus outline */
+            }
+            input, textarea, select {
+                -webkit-user-select: text !important; /* allow typing */
+                user-select: text !important;
+                outline: auto !important; /* normal input outline */
+            }
+            a, button {
+                -webkit-tap-highlight-color: transparent !important; /* remove tap on links/buttons */
             }
         `;
         document.head.appendChild(style);
 
+        // Prevent multi-touch gestures (pinch/zoom)
         document.addEventListener('touchstart', function(e){
             if(e.touches.length > 1){
-                e.preventDefault(); // only block multi-touch (pinch/zoom)
+                e.preventDefault();
             }
         }, { passive: false });
     }
 
     // =====================
-    // 2. Disable Keyboard Shortcuts (desktop only)
+    // 3. Disable Keyboard Shortcuts (desktop only)
     if(!isMobile){
         document.addEventListener('keydown', e => {
             const blocked = ["F12", "I", "J", "C", "U", "S"];
@@ -53,7 +63,7 @@
     }
 
     // =====================
-    // 3. Detect DevTools (desktop only)
+    // 4. Detect DevTools (desktop only)
     if(!isMobile){
         let devtoolsOpen = false;
         const threshold = 200; 
@@ -72,7 +82,7 @@
     }
 
     // =====================
-    // 4. Console tampering protection (safe version)
+    // 5. Console tampering protection (safe version)
     (function consoleProtection() {
         const originalConsole = console.log;
         window.console.log = function(...args){
@@ -83,7 +93,7 @@
     })();
 
     // =====================
-    // 5. Input XSS protection
+    // 6. Input XSS protection
     (function xssProtection() {
         const unsafeChars = ['<', '>', '"', "'", '(', ')', ';', '{', '}', '='];
         document.body.addEventListener('input', e => {
@@ -95,7 +105,7 @@
     })();
 
     // =====================
-    // 6. Critical function wrapper
+    // 7. Critical function wrapper
     window.protect = function(fn){
         try { fn(); } catch(e) {}
     };
